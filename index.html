@@ -5,12 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invitación Especial</title>
     
+    <!-- Meta tags básicos -->
+    <meta name="description" content="Tienes una invitación especial. ¡Haz clic para abrirla!" />
+    
     <!-- Open Graph para WhatsApp, Facebook, etc -->
     <meta property="og:title" content="Invitación Especial" />
     <meta property="og:description" content="Tienes una invitación especial. ¡Haz clic para abrirla!" />
     <meta property="og:image" content="https://clipvoltcard.github.io/15/miniatura.jpg" />
+    <meta property="og:image:secure_url" content="https://clipvoltcard.github.io/15/miniatura.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:url" content="https://clipvoltcard.github.io/15/" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Invitación Especial" />
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -18,13 +26,15 @@
     <meta name="twitter:description" content="Tienes una invitación especial. ¡Haz clic para abrirla!" />
     <meta name="twitter:image" content="https://clipvoltcard.github.io/15/miniatura.jpg" />
     
+    <!-- WhatsApp específico -->
+    <meta property="og:image:alt" content="Invitación Especial" />
+    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: Arial, sans-serif;
             height: 100vh;
@@ -33,11 +43,9 @@
             align-items: center;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-
         .container {
             text-align: center;
         }
-
         #openButton {
             background: white;
             color: #667eea;
@@ -50,16 +58,13 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
         }
-
         #openButton:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
         }
-
         #openButton:active {
             transform: translateY(-2px);
         }
-
         #videoContainer {
             display: none;
             position: fixed;
@@ -70,13 +75,11 @@
             background: black;
             z-index: 1000;
         }
-
         #videoContainer.active {
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
         video {
             max-width: 100%;
             max-height: 100%;
@@ -90,24 +93,20 @@
     <div class="container">
         <button id="openButton">ABRIR INVITACIÓN</button>
     </div>
-
     <div id="videoContainer">
         <video id="invitationVideo" loop playsinline controls>
             <source src="https://github.com/clipvoltcard/15/raw/main/15.mp4" type="video/mp4">
             Tu navegador no soporta el video.
         </video>
     </div>
-
     <script>
         const openButton = document.getElementById('openButton');
         const videoContainer = document.getElementById('videoContainer');
         const video = document.getElementById('invitationVideo');
-
         openButton.addEventListener('click', function() {
             videoContainer.classList.add('active');
             video.play();
         });
-
         // Evitar que el clic en el video cierre el contenedor
         video.addEventListener('click', function(e) {
             e.stopPropagation();
