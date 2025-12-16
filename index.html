@@ -93,6 +93,11 @@
             videoContainer.classList.add('active');
             video.play();
         });
+
+        // Evitar que el clic en el video cierre el contenedor
+        video.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
     </script>
 </body>
 </html>
