@@ -620,6 +620,11 @@
                         <button class="sort-btn" onclick="sortAttendees('guests-desc')">Personas ↓</button>
                     </div>
                 </div>
+                
+                <!-- Botón Guardar Cambios -->
+                <button class="btn btn-primary" onclick="saveCheckIns()" id="saveCheckBtn" style="margin-bottom: 20px;">
+                    💾 Guardar Cambios
+                </button>
             </div>
 
             <div id="attendeesList" style="display: none;"></div>
@@ -637,12 +642,13 @@
 
     <script>
         // URL de tu Google Apps Script
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzNBZN7goPwAd14cglfKDeTOPeGra2zohZBuvljLXGwj2J8SviL2qL17JuKYO3cNSW85Q/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxHSZ5Cc3977OebmGRzO-3XUUZGZs8UGhkQT2oSyOyuXskuIbl9P62hi59Lxaf94TXV2A/exec';
 
         // Variables globales para la lista de asistentes
         let allAttendees = [];
         let currentSort = null;
         let checkedInGuests = new Set();
+        let originalCheckedInGuests = new Set();
 
         function showForm() {
             document.getElementById('formModal').classList.add('active');
@@ -768,6 +774,56 @@
             renderAttendeesList(allAttendees);
         }
 
+        function saveCheckIns() {
+            const saveBtn = document.getElementById('saveCheckBtn');
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '⏳ Guardando...';
+            
+            // Crear un iframe para enviar todos los cambios
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+            
+            const form = iframe.contentDocument.createElement('form');
+            form.method = 'POST';
+            form.action = SCRIPT_URL;
+            
+            // Preparar datos: todos los códigos con su estado actual
+            const checkData = {};
+            allAttendees.forEach(attendee => {
+                checkData[attendee.code] = checkedInGuests.has(attendee.code) ? 'TRUE' : 'FALSE';
+            });
+            
+            // Agregar acción y datos
+            const actionInput = iframe.contentDocument.createElement('input');
+            actionInput.type = 'hidden';
+            actionInput.name = 'action';
+            actionInput.value = 'updateAllChecks';
+            form.appendChild(actionInput);
+            
+            const dataInput = iframe.contentDocument.createElement('input');
+            dataInput.type = 'hidden';
+            dataInput.name = 'checkData';
+            dataInput.value = JSON.stringify(checkData);
+            form.appendChild(dataInput);
+            
+            iframe.contentDocument.body.appendChild(form);
+            form.submit();
+            
+            // Actualizar el estado original después de guardar
+            setTimeout(() => {
+                originalCheckedInGuests = new Set(checkedInGuests);
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '✅ Guardado';
+                
+                setTimeout(() => {
+                    saveBtn.innerHTML = '💾 Guardar Cambios';
+                }, 2000);
+                
+                document.body.removeChild(iframe);
+            }, 1500);
+        }
+
         function sortAttendees(type) {
             currentSort = type;
             
@@ -808,163 +864,4 @@
             
             let filtered = allAttendees.filter(attendee => {
                 return attendee.name.toLowerCase().includes(searchTerm) ||
-                       attendee.code.toLowerCase().includes(searchTerm);
-            });
-            
-            // Aplicar ordenamiento actual si existe
-            if (currentSort) {
-                const sortType = currentSort;
-                switch(sortType) {
-                    case 'name-asc':
-                        filtered.sort((a, b) => a.name.localeCompare(b.name));
-                        break;
-                    case 'name-desc':
-                        filtered.sort((a, b) => b.name.localeCompare(a.name));
-                        break;
-                    case 'date-asc':
-                        filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
-                        break;
-                    case 'date-desc':
-                        filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
-                        break;
-                    case 'guests-asc':
-                        filtered.sort((a, b) => a.guests - b.guests);
-                        break;
-                    case 'guests-desc':
-                        filtered.sort((a, b) => b.guests - a.guests);
-                        break;
-                }
-            }
-            
-            renderAttendeesList(filtered);
-        }
-
-        function renderAttendeesList(attendees) {
-            const listDiv = document.getElementById('attendeesList');
-            
-            if (attendees.length === 0) {
-                listDiv.innerHTML = '<p style="text-align: center; color: #888; padding: 40px;">No se encontraron asistentes</p>';
-                return;
-            }
-            
-            let html = '';
-            
-            attendees.forEach(attendee => {
-                const isCheckedIn = checkedInGuests.has(attendee.code);
-                const dateStr = attendee.date ? attendee.date.split(',')[0] : 'Fecha no disponible';
-                
-                html += `
-                    <div class="attendee-card ${isCheckedIn ? 'checked-in' : ''}">
-                        <div class="attendee-header">
-                            <div style="flex: 1;">
-                                <div class="attendee-name">${attendee.name}</div>
-                                <div class="attendee-guests">👥 ${attendee.guests} ${attendee.guests === 1 ? 'persona' : 'personas'}</div>
-                            </div>
-                            <div style="text-align: right;">
-                                <div class="attendee-code">${attendee.code}</div>
-                                <div style="font-size: 0.8em; color: #888; margin-bottom: 8px;">${dateStr}</div>
-                                <div class="checkbox-wrapper" onclick="toggleCheckIn('${attendee.code}')">
-                                    <div class="checkbox-custom ${isCheckedIn ? 'checked' : ''}">
-                                        <span class="checkmark">✓</span>
-                                    </div>
-                                    <span style="font-size: 0.85em; color: #666;">${isCheckedIn ? 'Llegó' : 'Marcar'}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            listDiv.innerHTML = html;
-        }
-
-        function displayAttendees(attendees) {
-            document.getElementById('loadingAttendees').style.display = 'none';
-            document.getElementById('attendeesControls').style.display = 'block';
-            const listDiv = document.getElementById('attendeesList');
-            const totalDiv = document.getElementById('totalBox');
-            
-            if (attendees.length === 0) {
-                listDiv.innerHTML = '<p style="text-align: center; color: #888; padding: 40px;">No hay asistentes registrados aún</p>';
-                listDiv.style.display = 'block';
-                return;
-            }
-            
-            listDiv.style.display = 'block';
-            totalDiv.style.display = 'block';
-            
-            renderAttendeesList(attendees);
-            
-            // Calcular estadísticas
-            let totalGuests = 0;
-            attendees.forEach(attendee => {
-                totalGuests += attendee.guests;
-            });
-            
-            const checkedInCount = checkedInGuests.size;
-            let checkedInGuestsCount = 0;
-            attendees.forEach(attendee => {
-                if (checkedInGuests.has(attendee.code)) {
-                    checkedInGuestsCount += attendee.guests;
-                }
-            });
-            
-            totalDiv.innerHTML = `
-                <div style="font-size: 1.1em; margin-bottom: 10px;">Total confirmados: ${totalGuests} personas</div>
-                <div class="stats-row">
-                    <div class="stat-item">
-                        <div class="stat-number">${attendees.length}</div>
-                        <div class="stat-label">Invitados</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number" style="color: #4CAF50;">${checkedInCount}</div>
-                        <div class="stat-label">Llegaron</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number" style="color: #FF9800;">${attendees.length - checkedInCount}</div>
-                        <div class="stat-label">Pendientes</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number" style="color: #4CAF50;">${checkedInGuestsCount}</div>
-                        <div class="stat-label">Personas aquí</div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Cerrar modales al hacer clic fuera de ellos
-        document.querySelectorAll('.modal-overlay').forEach(modal => {
-            modal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.remove('active');
-                }
-            });
-        });
-
-        // Video Player Logic
-        const openVideoBtn = document.getElementById('openVideoBtn');
-        const videoContainer = document.getElementById('videoContainer');
-        const video = document.getElementById('invitationVideo');
-
-        openVideoBtn.addEventListener('click', function() {
-            videoContainer.classList.add('active');
-            video.play();
-        });
-
-        // Cerrar video al hacer clic fuera del video
-        videoContainer.addEventListener('click', function(e) {
-             if (e.target === this) {
-                this.classList.remove('active');
-                video.pause();
-                video.currentTime = 0; // Optional: Reset video
-            }
-        });
-        
-        // Evitar que clic en el video lo cierre (redundant if checking e.target === this, but good practice)
-        video.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-
-    </script>
-</body>
-</html>
+                       attendee.code.toLowerCase().includes(searchT
