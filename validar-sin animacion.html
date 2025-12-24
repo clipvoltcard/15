@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validar Invitación - Staff</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #E9B8A8 0%, #D4A89D 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            margin: 20px auto;
+        }
+
+        h1 {
+            color: #d91e6f;
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 1em;
+            padding: 0;
+        }
+
+        .back-btn:hover {
+            color: #333;
+        }
+
+        .password-screen, .attendees-screen {
+            display: none;
+        }
+
+        .password-screen.active, .attendees-screen.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input[type="password"], input[type="text"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #d91e6f;
+        }
+
+        .error {
+            color: #f44336;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #d91e6f;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #b91860;
+        }
+
+        .controls-box {
+            background: #f5f5f5;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            margin-bottom: 15px;
+        }
+
+        .sort-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .sort-btn {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .sort-btn:hover {
+            border-color: #d91e6f;
+            background: #fce4ec;
+        }
+
+        .sort-btn.active {
+            background: #d91e6f;
+            color: white;
+            border-color: #d91e6f;
+        }
+
+        .attendee-card {
+            background: #fce4ec;
+            border: 2px solid #f8bbd0;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .attendee-card.checked-in {
+            background: #c8e6c9;
+            border-color: #81c784;
+            opacity: 0.8;
+        }
+
+        .attendee-card.checked-in .attendee-name {
+            text-decoration: line-through;
+            color: #666;
+        }
+
+        .attendee-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        .attendee-name {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .attendee-code {
+            font-family: 'Courier New', monospace;
+            color: #d91e6f;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .attendee-guests {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .checkbox-custom {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #d91e6f;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        .checkbox-custom.checked {
+            background: #4CAF50;
+            border-color: #4CAF50;
+        }
+
+        .checkmark {
+            color: white;
+            font-size: 1.2em;
+            display: none;
+        }
+
+        .checkbox-custom.checked .checkmark {
+            display: block;
+        }
+
+        .total-box {
+            background: #f5f5f5;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #ddd;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5em;
+            color: #d91e6f;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #d91e6f;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #attendeesList {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="passwordScreen" class="password-screen active">
+            <button class="back-btn" onclick="window.location.href='index.html'">← Volver</button>
+            <h1>Acceso Restringido</h1>
+            <p style="text-align: center; color: #888; margin-bottom: 30px;">Ingresa la contraseña para continuar</p>
+
+            <div class="form-group">
+                <label for="password">Contraseña *</label>
+                <input type="password" id="password" placeholder="Ingresa la contraseña">
+                <div class="error" id="passwordError">Contraseña incorrecta</div>
+            </div>
+
+            <button class="btn btn-primary" onclick="checkPassword()">Ingresar</button>
+        </div>
+
+        <div id="attendeesScreen" class="attendees-screen">
+            <button class="back-btn" onclick="window.location.href='index.html'">← Volver</button>
+            <h1>Lista de Asistentes</h1>
+            
+            <div id="loadingAttendees" class="loading">
+                <div class="spinner"></div>
+                <p style="color: #666;">Cargando asistentes...</p>
+            </div>
+
+            <div id="attendeesControls" style="display: none;">
+                <div class="controls-box">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="🔍 Buscar por nombre o código..." oninput="filterAttendees()">
+                    </div>
+                    
+                    <div style="margin-bottom: 10px; color: #666; font-size: 0.9em; font-weight: bold;">Ordenar por:</div>
+                    <div class="sort-buttons">
+                        <button class="sort-btn" onclick="sortAttendees('name-asc')">Nombre A-Z</button>
+                        <button class="sort-btn" onclick="sortAttendees('name-desc')">Nombre Z-A</button>
+                        <button class="sort-btn" onclick="sortAttendees('date-asc')">Fecha ↑</button>
+                        <button class="sort-btn" onclick="sortAttendees('date-desc')">Fecha ↓</button>
+                        <button class="sort-btn" onclick="sortAttendees('guests-asc')">Personas ↑</button>
+                        <button class="sort-btn" onclick="sortAttendees('guests-desc')">Personas ↓</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="attendeesList" style="display: none;"></div>
+            <div id="totalBox" class="total-box" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyg4x0q2_cX51lPwv_dJycRmT2ArMI3QXKVxgWiCUWe5UEE0Q5XAdEF8avWDPz3E4xnow/exec';
+        const STAFF_PASSWORD = '948246782';
+
+        let allAttendees = [];
+        let currentSort = null;
+
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            if (password === STAFF_PASSWORD) {
+                document.getElementById('passwordScreen').classList.remove('active');
+                document.getElementById('attendeesScreen').classList.add('active');
+                loadAttendees();
+            } else {
+                document.getElementById('passwordError').style.display = 'block';
+            }
+        }
+
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        function loadAttendees() {
+            fetch(SCRIPT_URL + '?action=get')
+            .then(response => response.json())
+            .then(data => {
+                allAttendees = data;
+                displayAttendees(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('loadingAttendees').innerHTML = '<p style="color: #f44336;">Error al cargar los asistentes</p>';
+            });
+        }
+
+        function toggleCheckIn(code, currentStatus) {
+            const newStatus = currentStatus === 'SI' ? 'NO' : 'SI';
+            
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+            
+            const form = iframe.contentDocument.createElement('form');
+            form.method = 'POST';
+            form.action = SCRIPT_URL;
+            
+            const data = {
+                action: 'checkin',
+                code: code,
+                checkin: newStatus
+            };
+            
+            Object.keys(data).forEach(key => {
+                const input = iframe.contentDocument.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = data[key];
+                form.appendChild(input);
+            });
+            
+            iframe.contentDocument.body.appendChild(form);
+            form.submit();
+            
+            setTimeout(() => {
+                document.body.removeChild(iframe);
+                loadAttendees();
+            }, 1000);
+        }
+
+        function sortAttendees(type) {
+            currentSort = type;
+            
+            document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            let sorted = [...allAttendees];
+            
+            switch(type) {
+                case 'name-asc':
+                    sorted.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                case 'name-desc':
+                    sorted.sort((a, b) => b.name.localeCompare(a.name));
+                    break;
+                case 'date-asc':
+                    sorted.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    break;
+                case 'date-desc':
+                    sorted.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    break;
+                case 'guests-asc':
+                    sorted.sort((a, b) => a.guests - b.guests);
+                    break;
+                case 'guests-desc':
+                    sorted.sort((a, b) => b.guests - a.guests);
+                    break;
+            }
+            
+            renderAttendeesList(sorted);
+        }
+
+        function filterAttendees() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            let filtered = allAttendees.filter(attendee => {
+                return attendee.name.toLowerCase().includes(searchTerm) ||
+                       attendee.code.toLowerCase().includes(searchTerm);
+            });
+            
+            if (currentSort) {
+                const sortType = currentSort;
+                switch(sortType) {
+                    case 'name-asc':
+                        filtered.sort((a, b) => a.name.localeCompare(b.name));
+                        break;
+                    case 'name-desc':
+                        filtered.sort((a, b) => b.name.localeCompare(a.name));
+                        break;
+                    case 'date-asc':
+                        filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+                        break;
+                    case 'date-desc':
+                        filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+                        break;
+                    case 'guests-asc':
+                        filtered.sort((a, b) => a.guests - b.guests);
+                        break;
+                    case 'guests-desc':
+                        filtered.sort((a, b) => b.guests - a.guests);
+                        break;
+                }
+            }
+            
+            renderAttendeesList(filtered);
+        }
+
+        function renderAttendeesList(attendees) {
+            const listDiv = document.getElementById('attendeesList');
+            
+            if (attendees.length === 0) {
+                listDiv.innerHTML = '<p style="text-align: center; color: #888; padding: 40px;">No se encontraron asistentes</p>';
+                return;
+            }
+            
+            let html = '';
+            
+            attendees.forEach(attendee => {
+                const isCheckedIn = attendee.checkin === 'SI';
+                const date = new Date(attendee.date);
+                const dateStr = date.toLocaleDateString('es-ES');
+                
+                html += `
+                    <div class="attendee-card ${isCheckedIn ? 'checked-in' : ''}">
+                        <div class="attendee-header">
+                            <div style="flex: 1;">
+                                <div class="attendee-name">${attendee.name}</div>
+                                <div class="attendee-guests">👥 ${attendee.guests} ${attendee.guests === 1 ? 'persona' : 'personas'}</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div class="attendee-code">${attendee.code}</div>
+                                <div style="font-size: 0.8em; color: #888; margin-bottom: 8px;">${dateStr}</div>
+                                <div class="checkbox-wrapper" onclick="toggleCheckIn('${attendee.code}', '${attendee.checkin || 'NO'}')">
+                                    <div class="checkbox-custom ${isCheckedIn ? 'checked' : ''}">
+                                        <span class="checkmark">✓</span>
+                                    </div>
+                                    <span style="font-size: 0.85em; color: #666;">${isCheckedIn ? 'Llegó' : 'Marcar'}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            listDiv.innerHTML = html;
+        }
+
+        function displayAttendees(attendees) {
+            document.getElementById('loadingAttendees').style.display = 'none';
+            document.getElementById('attendeesControls').style.display = 'block';
+            const listDiv = document.getElementById('attendeesList');
+            const totalDiv = document.getElementById('totalBox');
+            
+            if (attendees.length === 0) {
+                listDiv.innerHTML = '<p style="text-align: center; color: #888; padding: 40px;">No hay asistentes registrados aún</p>';
+                listDiv.style.display = 'block';
+                return;
+            }
+            
+            listDiv.style.display = 'block';
+            totalDiv.style.display = 'block';
+            
+            renderAttendeesList(attendees);
+            
+            let totalGuests = 0;
+            let checkedInCount = 0;
+            let checkedInGuestsCount = 0;
+            
+            attendees.forEach(attendee => {
+                totalGuests += attendee.guests;
+                if (attendee.checkin === 'SI') {
+                    checkedInCount++;
+                    checkedInGuestsCount += attendee.guests;
+                }
+            });
+            
+            totalDiv.innerHTML = `
+                <div style="font-size: 1.1em; margin-bottom: 10px;">Total confirmados: ${totalGuests} personas</div>
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-number">${attendees.length}</div>
+                        <div class="stat-label">Invitados</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" style="color: #4CAF50;">${checkedInCount}</div>
+                        <div class="stat-label">Llegaron</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" style="color: #FF9800;">${attendees.length - checkedInCount}</div>
+                        <div class="stat-label">Pendientes</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" style="color: #4CAF50;">${checkedInGuestsCount}</div>
+                        <div class="stat-label">Personas aquí</div>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

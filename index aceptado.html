@@ -144,7 +144,6 @@
             height: 100%;
             background: black;
             z-index: 2000;
-            flex-direction: column;
         }
         
         #videoContainer.active {
@@ -155,17 +154,20 @@
         
         video {
             max-width: 100%;
-            max-height: calc(100% - 100px);
+            max-height: 100%;
             width: 100%;
+            height: 100%;
             object-fit: contain;
         }
 
         /* Botón flotante para confirmar asistencia en el video */
         #videoConfirmBtn {
             display: none;
-            width: calc(100% - 40px);
-            max-width: 500px;
-            margin: 20px;
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2001;
             padding: 16px 40px;
             background: #d91e6f;
             color: white;
@@ -175,7 +177,6 @@
             font-weight: bold;
             cursor: pointer;
             text-decoration: none;
-            text-align: center;
             box-shadow: 0 4px 20px rgba(217, 30, 111, 0.5);
             animation: pulse 2s infinite;
         }
@@ -186,7 +187,7 @@
 
         #videoConfirmBtn:hover {
             background: #b91860;
-            transform: scale(1.05);
+            transform: translateX(-50%) scale(1.05);
         }
 
         @keyframes pulse {
@@ -227,26 +228,20 @@
         </div>
 
         <button class="btn btn-secondary" id="openVideoBtn">Abrir Invitación</button>
+        <a href="confirmar.html" class="btn btn-primary">Confirmar Asistencia</a>
         <a href="validar.html" class="btn btn-gray">📸 Validar Invitación (Staff)</a>
 
-      <p class="footer">Rebeca Noemí Alfaro Daza</p>
-	  		
-    <img src="regalo.png" width="100%" alt=""/>
-		<p align = "center">Yape: <strong>958706427</strong></p>
-		<p align ="center">CUENTA BCP: <strong>57028253284024</strong></p>
-      <p align ="center">CCI:<strong>&nbsp;00257012825328402409</strong></p>
-	
-	
-	</div>
-
+        <p class="footer">Rebeca Noemí Alfaro Daza</p>
+    </div>
 
     <div id="videoContainer">
         <video id="invitationVideo" loop playsinline controls>
             <source src="https://github.com/clipvoltcard/15/raw/main/15.mp4" type="video/mp4">
             Tu navegador no soporta el video.
         </video>
-        <a href="confirmar.html" id="videoConfirmBtn">Confirmar Asistencia</a>
     </div>
+
+    <a href="confirmar.html" id="videoConfirmBtn">Confirmar Asistencia</a>
 
     <script>
         const openVideoBtn = document.getElementById('openVideoBtn');
