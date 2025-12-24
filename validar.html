@@ -165,6 +165,11 @@
             opacity: 0.8;
         }
 
+        .attendee-card.processing {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
         .attendee-card.checked-in .attendee-name {
             text-decoration: line-through;
             color: #666;
@@ -198,6 +203,11 @@
             display: flex;
             align-items: center;
             cursor: pointer;
+            position: relative;
+        }
+
+        .checkbox-wrapper.processing {
+            pointer-events: none;
         }
 
         .checkbox-custom {
@@ -211,6 +221,7 @@
             margin-right: 8px;
             background: white;
             transition: all 0.3s;
+            position: relative;
         }
 
         .checkbox-custom.checked {
@@ -226,6 +237,41 @@
 
         .checkbox-custom.checked .checkmark {
             display: block;
+        }
+
+        /* Animación de carga en el checkbox */
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #d91e6f;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            display: none;
+            position: absolute;
+        }
+
+        .checkbox-custom.loading .spinner {
+            display: block;
+        }
+
+        .checkbox-custom.loading .checkmark {
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Animación de pulso en la tarjeta */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(0.98); }
+        }
+
+        .attendee-card.processing {
+            animation: pulse 0.6s ease-in-out infinite;
         }
 
         .total-box {
@@ -251,77 +297,85 @@
         }
 
         .stat-number {
-            font-size: 1.5em;
-            color: #d91e6f;
+            font-size: 1.8em;
             font-weight: bold;
+            color: #d91e6f;
         }
 
         .stat-label {
             font-size: 0.85em;
             color: #666;
+            margin-top: 5px;
         }
 
-        .loading {
-            text-align: center;
-            padding: 40px;
-        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
 
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #d91e6f;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
+            h1 {
+                font-size: 1.5em;
+            }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+            .sort-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
 
-        #attendeesList {
-            max-height: 500px;
-            overflow-y: auto;
+            .stats-row {
+                flex-wrap: wrap;
+            }
+
+            .stat-item {
+                flex: 0 0 50%;
+                margin-bottom: 10px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Pantalla de contraseña -->
         <div id="passwordScreen" class="password-screen active">
-            <button class="back-btn" onclick="window.location.href='index.html'">← Volver</button>
-            <h1>Acceso Restringido</h1>
-            <p style="text-align: center; color: #888; margin-bottom: 30px;">Ingresa la contraseña para continuar</p>
-
+            <button class="back-btn" onclick="window.history.back()">← Volver</button>
+            <h1>🔒 Acceso Staff</h1>
+            
             <div class="form-group">
-                <label for="password">Contraseña *</label>
-                <input type="password" id="password" placeholder="Ingresa la contraseña">
-                <div class="error" id="passwordError">Contraseña incorrecta</div>
+                <label for="password">Contraseña:</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    placeholder="Ingresa la contraseña"
+                    autocomplete="off"
+                >
+                <div id="passwordError" class="error">Contraseña incorrecta</div>
             </div>
 
-            <button class="btn btn-primary" onclick="checkPassword()">Ingresar</button>
+            <button class="btn btn-primary" onclick="checkPassword()">Acceder</button>
         </div>
 
+        <!-- Pantalla de asistentes -->
         <div id="attendeesScreen" class="attendees-screen">
-            <button class="back-btn" onclick="window.location.href='index.html'">← Volver</button>
-            <h1>Lista de Asistentes</h1>
-            
-            <div id="loadingAttendees" class="loading">
-                <div class="spinner"></div>
-                <p style="color: #666;">Cargando asistentes...</p>
+            <button class="back-btn" onclick="window.history.back()">← Volver</button>
+            <h1>✅ Validar Asistentes</h1>
+
+            <div id="loadingAttendees" style="text-align: center; padding: 40px; color: #666;">
+                <p>Cargando asistentes...</p>
             </div>
 
-            <div id="attendeesControls" style="display: none;">
-                <div class="controls-box">
-                    <div class="search-box">
-                        <input type="text" id="searchInput" placeholder="🔍 Buscar por nombre o código..." oninput="filterAttendees()">
-                    </div>
-                    
-                    <div style="margin-bottom: 10px; color: #666; font-size: 0.9em; font-weight: bold;">Ordenar por:</div>
+            <div id="attendeesControls" class="controls-box" style="display: none;">
+                <div class="search-box">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="🔍 Buscar por nombre o código..."
+                        oninput="filterAttendees()"
+                    >
+                </div>
+                <div>
+                    <div style="font-size: 0.85em; color: #666; margin-bottom: 8px; font-weight: bold;">Ordenar por:</div>
                     <div class="sort-buttons">
-                        <button class="sort-btn" onclick="sortAttendees('name-asc')">Nombre A-Z</button>
-                        <button class="sort-btn" onclick="sortAttendees('name-desc')">Nombre Z-A</button>
+                        <button class="sort-btn" onclick="sortAttendees('name-asc')">Nombre ↑</button>
+                        <button class="sort-btn" onclick="sortAttendees('name-desc')">Nombre ↓</button>
                         <button class="sort-btn" onclick="sortAttendees('date-asc')">Fecha ↑</button>
                         <button class="sort-btn" onclick="sortAttendees('date-desc')">Fecha ↓</button>
                         <button class="sort-btn" onclick="sortAttendees('guests-asc')">Personas ↑</button>
@@ -337,7 +391,7 @@
 
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyg4x0q2_cX51lPwv_dJycRmT2ArMI3QXKVxgWiCUWe5UEE0Q5XAdEF8avWDPz3E4xnow/exec';
-        const STAFF_PASSWORD = '948246782';
+        const STAFF_PASSWORD = '998900917';
 
         let allAttendees = [];
         let currentSort = null;
@@ -374,6 +428,21 @@
 
         function toggleCheckIn(code, currentStatus) {
             const newStatus = currentStatus === 'SI' ? 'NO' : 'SI';
+            
+            // Mostrar animación inmediatamente
+            const card = document.querySelector(`[data-code="${code}"]`);
+            if (card) {
+                card.classList.add('processing');
+                const checkbox = card.querySelector('.checkbox-custom');
+                const wrapper = card.querySelector('.checkbox-wrapper');
+                
+                if (checkbox) {
+                    checkbox.classList.add('loading');
+                }
+                if (wrapper) {
+                    wrapper.classList.add('processing');
+                }
+            }
             
             const iframe = document.createElement('iframe');
             iframe.style.display = 'none';
@@ -489,7 +558,7 @@
                 const dateStr = date.toLocaleDateString('es-ES');
                 
                 html += `
-                    <div class="attendee-card ${isCheckedIn ? 'checked-in' : ''}">
+                    <div class="attendee-card ${isCheckedIn ? 'checked-in' : ''}" data-code="${attendee.code}">
                         <div class="attendee-header">
                             <div style="flex: 1;">
                                 <div class="attendee-name">${attendee.name}</div>
@@ -501,6 +570,7 @@
                                 <div class="checkbox-wrapper" onclick="toggleCheckIn('${attendee.code}', '${attendee.checkin || 'NO'}')">
                                     <div class="checkbox-custom ${isCheckedIn ? 'checked' : ''}">
                                         <span class="checkmark">✓</span>
+                                        <div class="spinner"></div>
                                     </div>
                                     <span style="font-size: 0.85em; color: #666;">${isCheckedIn ? 'Llegó' : 'Marcar'}</span>
                                 </div>
