@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Asistencia - Mis 15 Años</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #E9B8A8 0%, #D4A89D 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #d91e6f;
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #888;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1em;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 1em;
+            padding: 0;
+        }
+
+        .back-btn:hover {
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #d91e6f;
+        }
+
+        .help-text {
+            color: #888;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .error {
+            color: #f44336;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .btn-primary {
+            background: #d91e6f;
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #b91860;
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-gray {
+            background: #666;
+            color: white;
+        }
+
+        .btn-gray:hover {
+            background: #555;
+        }
+
+        .success-screen {
+            display: none;
+            text-align: center;
+        }
+
+        .success-screen.active {
+            display: block;
+        }
+
+        .form-screen.hidden {
+            display: none;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 3em;
+        }
+
+        .code-box {
+            background: #fce4ec;
+            border: 2px solid #d91e6f;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .code-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .code {
+            font-family: 'Courier New', monospace;
+            font-size: 2em;
+            color: #d91e6f;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="formScreen" class="form-screen">
+            <button class="back-btn" onclick="window.location.href='index.html'">← Volver</button>
+            <h1>Confirmar Asistencia</h1>
+            <p class="subtitle">Por favor completa los siguientes datos</p>
+
+            <div class="form-group">
+                <label for="name">Nombre Completo *</label>
+                <input type="text" id="name" placeholder="Ingresa tu nombre completo" required>
+                <div class="error" id="nameError">El nombre completo es obligatorio</div>
+            </div>
+
+            <div class="form-group">
+                <label for="guests">¿Cuántas personas asistirán? *</label>
+                <input type="number" id="guests" min="1" value="1" required>
+                <p class="help-text">Incluye el número total de personas que te acompañarán (incluyéndote a ti)</p>
+                <div class="error" id="guestsError">Debe haber al menos 1 persona</div>
+            </div>
+
+            <button class="btn btn-primary" onclick="submitForm()" id="submitBtn">✓ Confirmar Asistencia</button>
+        </div>
+
+        <div id="successScreen" class="success-screen">
+            <div class="success-icon">✓</div>
+            <h1 style="color: #4CAF50; margin-bottom: 15px;">¡Confirmado!</h1>
+            <p style="color: #666; margin-bottom: 20px;">Tu asistencia ha sido registrada exitosamente</p>
+
+            <div class="code-box">
+                <p class="code-label">Tu código de confirmación:</p>
+                <div class="code" id="confirmationCode"></div>
+                <p style="color: #888; font-size: 0.9em; margin-top: 10px;">Guarda este código para validar tu entrada</p>
+            </div>
+
+            <button class="btn btn-gray" onclick="window.location.href='index.html'">Volver al Inicio</button>
+        </div>
+    </div>
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRh5biESQT2GH7j0ptc2tKa17H9RktqrMIzaKKEhwoIGalST-AFzpj1TNkaTzR0GkiCg/exec';
+
+        function generateCode() {
+            return 'Q15-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+        }
+
+        function submitForm() {
+            const name = document.getElementById('name').value.trim();
+            const guests = parseInt(document.getElementById('guests').value);
+            
+            let hasError = false;
+            
+            if (!name) {
+                document.getElementById('nameError').style.display = 'block';
+                hasError = true;
+            } else {
+                document.getElementById('nameError').style.display = 'none';
+            }
+            
+            if (guests < 1) {
+                document.getElementById('guestsError').style.display = 'block';
+                hasError = true;
+            } else {
+                document.getElementById('guestsError').style.display = 'none';
+            }
+            
+            if (hasError) return;
+            
+            const code = generateCode();
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Guardando...';
+            
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+            
+            const form = iframe.contentDocument.createElement('form');
+            form.method = 'POST';
+            form.action = SCRIPT_URL;
+            
+            const data = {
+                action: 'save',
+                name: name,
+                guests: guests,
+                code: code,
+                date: new Date().toISOString(),
+                checkin: 'NO'
+            };
+            
+            Object.keys(data).forEach(key => {
+                const input = iframe.contentDocument.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = data[key];
+                form.appendChild(input);
+            });
+            
+            iframe.contentDocument.body.appendChild(form);
+            form.submit();
+            
+            setTimeout(() => {
+                document.getElementById('confirmationCode').textContent = code;
+                document.getElementById('formScreen').classList.add('hidden');
+                document.getElementById('successScreen').classList.add('active');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '✓ Confirmar Asistencia';
+                document.body.removeChild(iframe);
+            }, 1500);
+        }
+
+        document.getElementById('name').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('guests').focus();
+            }
+        });
+
+        document.getElementById('guests').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitForm();
+            }
+        });
+    </script>
+</body>
+</html>
