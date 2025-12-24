@@ -12,22 +12,9 @@
     <meta property="og:title" content="Invitación Especial" />
     <meta property="og:description" content="Tienes una invitación especial. ¡Haz clic para abrirla!" />
     <meta property="og:image" content="https://clipvoltcard.github.io/15/miniatura.jpg" />
-    <meta property="og:image:secure_url" content="https://clipvoltcard.github.io/15/miniatura.jpg" />
-    <meta property="og:image:type" content="image/jpeg" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Invitación Especial" />
     <meta property="og:url" content="https://clipvoltcard.github.io/15/" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Invitación Especial" />
-    <meta property="fb:app_id" content="966242223397117" />
     
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Invitación Especial" />
-    <meta name="twitter:description" content="Tienes una invitación especial. ¡Haz clic para abrirla!" />
-    <meta name="twitter:image" content="https://clipvoltcard.github.io/15/miniatura.jpg" />
-
     <style>
         * {
             margin: 0;
@@ -105,7 +92,6 @@
             text-decoration: underline;
         }
 
-        /* Modal Overlay */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -134,6 +120,7 @@
             max-width: 500px;
             width: 100%;
             animation: slideIn 0.3s;
+            margin: auto;
         }
 
         @keyframes fadeIn {
@@ -477,7 +464,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Video Player Styles */
         #videoContainer {
             display: none;
             position: fixed;
@@ -504,7 +490,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- Pantalla Principal -->
         <div id="mainScreen">
             <h1>Mis 15 Años</h1>
             <p class="subtitle">Estás cordialmente invitado(a)</p>
@@ -531,24 +516,32 @@
                 </div>
             </div>
 
-            <!-- Changed button to open video -->
-            <button class="btn btn-secondary" id="openVideoBtn">
-                Abrir Invitación
-            </button>
-
-            <button class="btn btn-primary" onclick="showForm()">
-                Confirmar Asistencia
-            </button>
-
-            <button class="btn btn-gray" onclick="showAttendees()">
-                📸 Validar Invitación (Staff)
-            </button>
+            <button class="btn btn-secondary" id="openVideoBtn">Abrir Invitación</button>
+            <button class="btn btn-primary" onclick="showForm()">Confirmar Asistencia</button>
+            <button class="btn btn-gray" onclick="showPasswordPrompt()">📸 Validar Invitación (Staff)</button>
 
             <p class="footer">Rebeca Noemí Alfaro Daza</p>
         </div>
     </div>
 
-    <!-- Modal Formulario de Confirmación -->
+    <!-- Modal Password -->
+    <div id="passwordModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="back-btn" onclick="closePassword()">← Volver</button>
+            <h2 style="color: #d91e6f; text-align: center; margin-bottom: 10px;">Acceso Restringido</h2>
+            <p style="text-align: center; color: #888; margin-bottom: 30px;">Ingresa la contraseña para continuar</p>
+
+            <div class="form-group">
+                <label for="password">Contraseña *</label>
+                <input type="password" id="password" placeholder="Ingresa la contraseña">
+                <div class="error" id="passwordError">Contraseña incorrecta</div>
+            </div>
+
+            <button class="btn btn-primary" onclick="checkPassword()">Ingresar</button>
+        </div>
+    </div>
+
+    <!-- Modal Formulario -->
     <div id="formModal" class="modal-overlay">
         <div class="modal-content">
             <button class="back-btn" onclick="closeForm()">← Volver</button>
@@ -568,13 +561,11 @@
                 <div class="error" id="guestsError">Debe haber al menos 1 persona</div>
             </div>
 
-            <button class="btn btn-primary" onclick="submitForm()" id="submitBtn">
-                Confirmar
-            </button>
+            <button class="btn btn-primary" onclick="submitForm()" id="submitBtn">Confirmar</button>
         </div>
     </div>
 
-    <!-- Modal Pantalla de Éxito -->
+    <!-- Modal Éxito -->
     <div id="successModal" class="modal-overlay">
         <div class="modal-content">
             <div class="success-box">
@@ -593,7 +584,7 @@
         </div>
     </div>
 
-    <!-- Modal Lista de Asistentes -->
+    <!-- Modal Asistentes -->
     <div id="attendeesModal" class="modal-overlay">
         <div class="modal-content">
             <button class="back-btn" onclick="closeAttendees()">← Volver</button>
@@ -620,11 +611,6 @@
                         <button class="sort-btn" onclick="sortAttendees('guests-desc')">Personas ↓</button>
                     </div>
                 </div>
-                
-                <!-- Botón Guardar Cambios -->
-                <button class="btn btn-primary" onclick="saveCheckIns()" id="saveCheckBtn" style="margin-bottom: 20px;">
-                    💾 Guardar Cambios
-                </button>
             </div>
 
             <div id="attendeesList" style="display: none;"></div>
@@ -641,18 +627,34 @@
     </div>
 
     <script>
-        // URL de tu Google Apps Script
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxHSZ5Cc3977OebmGRzO-3XUUZGZs8UGhkQT2oSyOyuXskuIbl9P62hi59Lxaf94TXV2A/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRh5biESQT2GH7j0ptc2tKa17H9RktqrMIzaKKEhwoIGalST-AFzpj1TNkaTzR0GkiCg/exec';
+        const STAFF_PASSWORD = '948246782';
 
-        // Variables globales para la lista de asistentes
         let allAttendees = [];
         let currentSort = null;
-        let checkedInGuests = new Set();
-        let originalCheckedInGuests = new Set();
+
+        function showPasswordPrompt() {
+            document.getElementById('passwordModal').classList.add('active');
+            document.getElementById('password').value = '';
+            document.getElementById('passwordError').style.display = 'none';
+        }
+
+        function closePassword() {
+            document.getElementById('passwordModal').classList.remove('active');
+        }
+
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            if (password === STAFF_PASSWORD) {
+                closePassword();
+                showAttendees();
+            } else {
+                document.getElementById('passwordError').style.display = 'block';
+            }
+        }
 
         function showForm() {
             document.getElementById('formModal').classList.add('active');
-            // Limpiar formulario
             document.getElementById('name').value = '';
             document.getElementById('guests').value = '1';
             document.querySelectorAll('.error').forEach(e => e.style.display = 'none');
@@ -678,7 +680,6 @@
             const name = document.getElementById('name').value.trim();
             const guests = parseInt(document.getElementById('guests').value);
             
-            // Validación
             let hasError = false;
             
             if (!name) {
@@ -702,7 +703,6 @@
             submitBtn.disabled = true;
             submitBtn.textContent = '⏳ Guardando...';
             
-            // Usar la técnica de iframe para evitar CORS
             const iframe = document.createElement('iframe');
             iframe.style.display = 'none';
             document.body.appendChild(iframe);
@@ -716,10 +716,10 @@
                 name: name,
                 guests: guests,
                 code: code,
-                date: new Date().toISOString()
+                date: new Date().toISOString(),
+                checkin: 'NO'
             };
             
-            // Crear inputs ocultos para cada campo
             Object.keys(data).forEach(key => {
                 const input = iframe.contentDocument.createElement('input');
                 input.type = 'hidden';
@@ -731,7 +731,6 @@
             iframe.contentDocument.body.appendChild(form);
             form.submit();
             
-            // Mostrar confirmación después de un breve delay
             setTimeout(() => {
                 document.getElementById('confirmationCode').textContent = code;
                 document.getElementById('formModal').classList.remove('active');
@@ -765,21 +764,9 @@
             });
         }
 
-        function toggleCheckIn(code) {
-            if (checkedInGuests.has(code)) {
-                checkedInGuests.delete(code);
-            } else {
-                checkedInGuests.add(code);
-            }
-            renderAttendeesList(allAttendees);
-        }
-
-        function saveCheckIns() {
-            const saveBtn = document.getElementById('saveCheckBtn');
-            saveBtn.disabled = true;
-            saveBtn.innerHTML = '⏳ Guardando...';
+        function toggleCheckIn(code, currentStatus) {
+            const newStatus = currentStatus === 'SI' ? 'NO' : 'SI';
             
-            // Crear un iframe para enviar todos los cambios
             const iframe = document.createElement('iframe');
             iframe.style.display = 'none';
             document.body.appendChild(iframe);
@@ -788,49 +775,33 @@
             form.method = 'POST';
             form.action = SCRIPT_URL;
             
-            // Preparar datos: todos los códigos con su estado actual
-            const checkData = {};
-            allAttendees.forEach(attendee => {
-                checkData[attendee.code] = checkedInGuests.has(attendee.code) ? 'TRUE' : 'FALSE';
+            const data = {
+                action: 'checkin',
+                code: code,
+                checkin: newStatus
+            };
+            
+            Object.keys(data).forEach(key => {
+                const input = iframe.contentDocument.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = data[key];
+                form.appendChild(input);
             });
-            
-            // Agregar acción y datos
-            const actionInput = iframe.contentDocument.createElement('input');
-            actionInput.type = 'hidden';
-            actionInput.name = 'action';
-            actionInput.value = 'updateAllChecks';
-            form.appendChild(actionInput);
-            
-            const dataInput = iframe.contentDocument.createElement('input');
-            dataInput.type = 'hidden';
-            dataInput.name = 'checkData';
-            dataInput.value = JSON.stringify(checkData);
-            form.appendChild(dataInput);
             
             iframe.contentDocument.body.appendChild(form);
             form.submit();
             
-            // Actualizar el estado original después de guardar
             setTimeout(() => {
-                originalCheckedInGuests = new Set(checkedInGuests);
-                saveBtn.disabled = false;
-                saveBtn.innerHTML = '✅ Guardado';
-                
-                setTimeout(() => {
-                    saveBtn.innerHTML = '💾 Guardar Cambios';
-                }, 2000);
-                
                 document.body.removeChild(iframe);
-            }, 1500);
+                loadAttendees();
+            }, 1000);
         }
 
         function sortAttendees(type) {
             currentSort = type;
             
-            // Remover clase active de todos los botones
             document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
-            
-            // Agregar clase active al botón clickeado
             event.target.classList.add('active');
             
             let sorted = [...allAttendees];
@@ -864,4 +835,44 @@
             
             let filtered = allAttendees.filter(attendee => {
                 return attendee.name.toLowerCase().includes(searchTerm) ||
-                       attendee.code.toLowerCase().includes(searchT
+                       attendee.code.toLowerCase().includes(searchTerm);
+            });
+            
+            if (currentSort) {
+                const sortType = currentSort;
+                switch(sortType) {
+                    case 'name-asc':
+                        filtered.sort((a, b) => a.name.localeCompare(b.name));
+                        break;
+                    case 'name-desc':
+                        filtered.sort((a, b) => b.name.localeCompare(a.name));
+                        break;
+                    case 'date-asc':
+                        filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+                        break;
+                    case 'date-desc':
+                        filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+                        break;
+                    case 'guests-asc':
+                        filtered.sort((a, b) => a.guests - b.guests);
+                        break;
+                    case 'guests-desc':
+                        filtered.sort((a, b) => b.guests - a.guests);
+                        break;
+                }
+            }
+            
+            renderAttendeesList(filtered);
+        }
+
+        function renderAttendeesList(attendees) {
+            const listDiv = document.getElementById('attendeesList');
+            
+            if (attendees.length === 0) {
+                listDiv.innerHTML = '<p style="text-align: center; color: #888; padding: 40px;">No se encontraron asistentes</p>';
+                return;
+            }
+            
+            let html = '';
+            
+            
