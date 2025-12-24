@@ -159,6 +159,45 @@
             height: 100%;
             object-fit: contain;
         }
+
+        /* Botón flotante para confirmar asistencia en el video */
+        #videoConfirmBtn {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2001;
+            padding: 16px 40px;
+            background: #d91e6f;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(217, 30, 111, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        #videoConfirmBtn.show {
+            display: block;
+        }
+
+        #videoConfirmBtn:hover {
+            background: #b91860;
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 4px 20px rgba(217, 30, 111, 0.5);
+            }
+            50% {
+                box-shadow: 0 4px 30px rgba(217, 30, 111, 0.8);
+            }
+        }
     </style>
 </head>
 <body>
@@ -202,14 +241,27 @@
         </video>
     </div>
 
+    <a href="confirmar.html" id="videoConfirmBtn">Confirmar Asistencia</a>
+
     <script>
         const openVideoBtn = document.getElementById('openVideoBtn');
         const videoContainer = document.getElementById('videoContainer');
         const video = document.getElementById('invitationVideo');
+        const videoConfirmBtn = document.getElementById('videoConfirmBtn');
 
         openVideoBtn.addEventListener('click', function() {
             videoContainer.classList.add('active');
             video.play();
+        });
+
+        // Mostrar botón cuando el video se reproduce
+        video.addEventListener('play', function() {
+            videoConfirmBtn.classList.add('show');
+        });
+
+        // Ocultar botón cuando el video se pausa
+        video.addEventListener('pause', function() {
+            videoConfirmBtn.classList.remove('show');
         });
 
         videoContainer.addEventListener('click', function(e) {
@@ -217,6 +269,7 @@
                 this.classList.remove('active');
                 video.pause();
                 video.currentTime = 0;
+                videoConfirmBtn.classList.remove('show');
             }
         });
 
