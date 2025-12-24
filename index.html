@@ -5,15 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis 15 Años - Rebeca Noemí Alfaro Daza</title>
     
-    <!-- Meta tags from original index.html -->
     <meta name="description" content="Tienes una invitación especial. ¡Haz clic para abrirla!" />
-    
-    <!-- Open Graph -->
     <meta property="og:title" content="Invitación Especial" />
     <meta property="og:description" content="Tienes una invitación especial. ¡Haz clic para abrirla!" />
     <meta property="og:image" content="https://clipvoltcard.github.io/15/miniatura.jpg" />
     <meta property="og:url" content="https://clipvoltcard.github.io/15/" />
-    <meta property="og:type" content="website" />
     
     <style>
         * {
@@ -39,8 +35,6 @@
             padding: 40px;
             max-width: 500px;
             width: 100%;
-            position: relative;
-            z-index: 1;
         }
 
         h1 {
@@ -92,91 +86,6 @@
             text-decoration: underline;
         }
 
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 999;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 20px;
-            animation: fadeIn 0.3s;
-            overflow-y: auto;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            padding: 40px;
-            max-width: 500px;
-            width: 100%;
-            animation: slideIn 0.3s;
-            margin: auto;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideIn {
-            from { 
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            color: #333;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #ddd;
-            border-radius: 12px;
-            font-size: 1em;
-            transition: border-color 0.3s;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #d91e6f;
-        }
-
-        .help-text {
-            color: #888;
-            font-size: 0.9em;
-            margin-top: 5px;
-        }
-
-        .error {
-            color: #f44336;
-            font-size: 0.9em;
-            margin-top: 5px;
-            display: none;
-        }
-
         .btn {
             width: 100%;
             padding: 16px;
@@ -187,15 +96,9 @@
             cursor: pointer;
             transition: all 0.3s;
             margin-bottom: 10px;
-        }
-
-        .btn-primary {
-            background: #d91e6f;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #b91860;
+            text-decoration: none;
+            display: block;
+            text-align: center;
         }
 
         .btn-secondary {
@@ -207,6 +110,15 @@
             background: #e0b538;
         }
 
+        .btn-primary {
+            background: #d91e6f;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #b91860;
+        }
+
         .btn-gray {
             background: #666;
             color: white;
@@ -216,252 +128,11 @@
             background: #555;
         }
 
-        .back-btn {
-            background: none;
-            border: none;
-            color: #666;
-            cursor: pointer;
-            margin-bottom: 20px;
-            font-size: 1em;
-            padding: 0;
-        }
-
-        .back-btn:hover {
-            color: #333;
-        }
-
-        .success-box {
-            text-align: center;
-        }
-
-        .success-icon {
-            width: 80px;
-            height: 80px;
-            background: #4CAF50;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            color: white;
-            font-size: 3em;
-        }
-
-        .code-box {
-            background: #fce4ec;
-            border: 2px solid #d91e6f;
-            border-radius: 15px;
-            padding: 25px;
-            margin: 20px 0;
-        }
-
-        .code-label {
-            color: #666;
-            font-size: 0.9em;
-            margin-bottom: 8px;
-        }
-
-        .code {
-            font-family: 'Courier New', monospace;
-            font-size: 2em;
-            color: #d91e6f;
-            font-weight: bold;
-        }
-
         .footer {
             text-align: center;
             color: #666;
             margin-top: 30px;
             font-size: 1.1em;
-        }
-
-        #attendeesList {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .attendee-card {
-            background: #fce4ec;
-            border: 2px solid #f8bbd0;
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 15px;
-            transition: all 0.3s;
-        }
-
-        .attendee-card.checked-in {
-            background: #c8e6c9;
-            border-color: #81c784;
-            opacity: 0.7;
-        }
-
-        .attendee-card.checked-in .attendee-name {
-            text-decoration: line-through;
-            color: #666;
-        }
-
-        .attendee-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-        }
-
-        .attendee-name {
-            font-weight: bold;
-            color: #333;
-            font-size: 1.1em;
-        }
-
-        .attendee-code {
-            font-family: 'Courier New', monospace;
-            color: #d91e6f;
-            font-weight: bold;
-            font-size: 0.9em;
-        }
-
-        .attendee-guests {
-            color: #666;
-            margin-top: 5px;
-        }
-
-        .total-box {
-            background: #f5f5f5;
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 20px;
-            text-align: center;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .controls-box {
-            background: #f5f5f5;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .search-box {
-            margin-bottom: 15px;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #ddd;
-            border-radius: 12px;
-            font-size: 1em;
-        }
-
-        .search-box input:focus {
-            outline: none;
-            border-color: #d91e6f;
-        }
-
-        .sort-buttons {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-
-        .sort-btn {
-            padding: 8px 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            background: white;
-            font-size: 0.85em;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        .sort-btn:hover {
-            border-color: #d91e6f;
-            background: #fce4ec;
-        }
-
-        .sort-btn.active {
-            background: #d91e6f;
-            color: white;
-            border-color: #d91e6f;
-        }
-
-        .stats-row {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 2px solid #ddd;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 1.5em;
-            color: #d91e6f;
-            font-weight: bold;
-        }
-
-        .stat-label {
-            font-size: 0.85em;
-            color: #666;
-        }
-
-        .checkbox-wrapper {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .checkbox-custom {
-            width: 24px;
-            height: 24px;
-            border: 2px solid #d91e6f;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 8px;
-            background: white;
-            transition: all 0.3s;
-        }
-
-        .checkbox-custom.checked {
-            background: #4CAF50;
-            border-color: #4CAF50;
-        }
-
-        .checkmark {
-            color: white;
-            font-size: 1.2em;
-            display: none;
-        }
-
-        .checkbox-custom.checked .checkmark {
-            display: block;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-        }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #d91e6f;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
 
         #videoContainer {
@@ -474,11 +145,13 @@
             background: black;
             z-index: 2000;
         }
+        
         #videoContainer.active {
             display: flex;
             justify-content: center;
             align-items: center;
         }
+        
         video {
             max-width: 100%;
             max-height: 100%;
@@ -490,135 +163,38 @@
 </head>
 <body>
     <div class="container">
-        <div id="mainScreen">
-            <h1>Mis 15 Años</h1>
-            <p class="subtitle">Estás cordialmente invitado(a)</p>
+        <h1>Mis 15 Años</h1>
+        <p class="subtitle">Estás cordialmente invitado(a)</p>
 
-            <div class="info-box">
-                <div class="info-item">
-                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                    </svg>
-                    <span>Fecha: 7 de Febrero, 2026</span>
-                </div>
-                <div class="info-item">
-                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <span>Hora: 7:00 PM</span>
-                </div>
-                <div class="info-item">
-                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    </svg>
-                    <a href="https://maps.app.goo.gl/96m9EJoGhYPK1nbZ7" target="_blank" class="map-link">Ver ubicación en Google Maps</a>
-                </div>
+        <div class="info-box">
+            <div class="info-item">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <span>Fecha: 7 de Febrero, 2026</span>
             </div>
-
-            <button class="btn btn-secondary" id="openVideoBtn">Abrir Invitación</button>
-            <button class="btn btn-primary" onclick="showForm()">Confirmar Asistencia</button>
-            <button class="btn btn-gray" onclick="showPasswordPrompt()">📸 Validar Invitación (Staff)</button>
-
-            <p class="footer">Rebeca Noemí Alfaro Daza</p>
-        </div>
-    </div>
-
-    <!-- Modal Password -->
-    <div id="passwordModal" class="modal-overlay">
-        <div class="modal-content">
-            <button class="back-btn" onclick="closePassword()">← Volver</button>
-            <h2 style="color: #d91e6f; text-align: center; margin-bottom: 10px;">Acceso Restringido</h2>
-            <p style="text-align: center; color: #888; margin-bottom: 30px;">Ingresa la contraseña para continuar</p>
-
-            <div class="form-group">
-                <label for="password">Contraseña *</label>
-                <input type="password" id="password" placeholder="Ingresa la contraseña">
-                <div class="error" id="passwordError">Contraseña incorrecta</div>
+            <div class="info-item">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span>Hora: 7:00 PM</span>
             </div>
-
-            <button class="btn btn-primary" onclick="checkPassword()">Ingresar</button>
-        </div>
-    </div>
-
-    <!-- Modal Formulario -->
-    <div id="formModal" class="modal-overlay">
-        <div class="modal-content">
-            <button class="back-btn" onclick="closeForm()">← Volver</button>
-            <h2 style="color: #d91e6f; text-align: center; margin-bottom: 10px;">Confirmar Asistencia</h2>
-            <p style="text-align: center; color: #888; margin-bottom: 30px;">Por favor completa los siguientes datos</p>
-
-            <div class="form-group">
-                <label for="name">Nombre Completo *</label>
-                <input type="text" id="name" placeholder="Ingresa tu nombre completo" required>
-                <div class="error" id="nameError">El nombre completo es obligatorio</div>
-            </div>
-
-            <div class="form-group">
-                <label for="guests">¿Cuántas personas asistirán? *</label>
-                <input type="number" id="guests" min="1" value="1" required>
-                <p class="help-text">Incluye el número total de personas que te acompañarán (incluyéndote a ti)</p>
-                <div class="error" id="guestsError">Debe haber al menos 1 persona</div>
-            </div>
-
-            <button class="btn btn-primary" onclick="submitForm()" id="submitBtn">Confirmar</button>
-        </div>
-    </div>
-
-    <!-- Modal Éxito -->
-    <div id="successModal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="success-box">
-                <div class="success-icon">✓</div>
-                <h2 style="color: #4CAF50; margin-bottom: 15px;">¡Confirmado!</h2>
-                <p style="color: #666; margin-bottom: 20px;">Tu asistencia ha sido registrada exitosamente</p>
-
-                <div class="code-box">
-                    <p class="code-label">Tu código de confirmación:</p>
-                    <div class="code" id="confirmationCode"></div>
-                    <p style="color: #888; font-size: 0.9em; margin-top: 10px;">Guarda este código para validar tu entrada</p>
-                </div>
-
-                <button class="btn btn-gray" onclick="closeSuccess()">Volver al Inicio</button>
+            <div class="info-item">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                <a href="https://maps.app.goo.gl/96m9EJoGhYPK1nbZ7" target="_blank" class="map-link">Ver ubicación en Google Maps</a>
             </div>
         </div>
+
+        <button class="btn btn-secondary" id="openVideoBtn">Abrir Invitación</button>
+        <a href="confirmar.html" class="btn btn-primary">Confirmar Asistencia</a>
+        <a href="validar.html" class="btn btn-gray">📸 Validar Invitación (Staff)</a>
+
+        <p class="footer">Rebeca Noemí Alfaro Daza</p>
     </div>
 
-    <!-- Modal Asistentes -->
-    <div id="attendeesModal" class="modal-overlay">
-        <div class="modal-content">
-            <button class="back-btn" onclick="closeAttendees()">← Volver</button>
-            <h2 style="color: #d91e6f; text-align: center; margin-bottom: 20px;">Lista de Asistentes</h2>
-            
-            <div id="loadingAttendees" class="loading">
-                <div class="spinner"></div>
-                <p style="color: #666;">Cargando asistentes...</p>
-            </div>
-
-            <div id="attendeesControls" style="display: none;">
-                <div class="controls-box">
-                    <div class="search-box">
-                        <input type="text" id="searchInput" placeholder="🔍 Buscar por nombre o código..." oninput="filterAttendees()">
-                    </div>
-                    
-                    <div style="margin-bottom: 10px; color: #666; font-size: 0.9em; font-weight: bold;">Ordenar por:</div>
-                    <div class="sort-buttons">
-                        <button class="sort-btn" onclick="sortAttendees('name-asc')">Nombre A-Z</button>
-                        <button class="sort-btn" onclick="sortAttendees('name-desc')">Nombre Z-A</button>
-                        <button class="sort-btn" onclick="sortAttendees('date-asc')">Fecha ↑</button>
-                        <button class="sort-btn" onclick="sortAttendees('date-desc')">Fecha ↓</button>
-                        <button class="sort-btn" onclick="sortAttendees('guests-asc')">Personas ↑</button>
-                        <button class="sort-btn" onclick="sortAttendees('guests-desc')">Personas ↓</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="attendeesList" style="display: none;"></div>
-            <div id="totalBox" class="total-box" style="display: none;"></div>
-        </div>
-    </div>
-
-    <!-- Video Container -->
     <div id="videoContainer">
         <video id="invitationVideo" loop playsinline controls>
             <source src="https://github.com/clipvoltcard/15/raw/main/15.mp4" type="video/mp4">
@@ -627,252 +203,26 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRh5biESQT2GH7j0ptc2tKa17H9RktqrMIzaKKEhwoIGalST-AFzpj1TNkaTzR0GkiCg/exec';
-        const STAFF_PASSWORD = '948246782';
+        const openVideoBtn = document.getElementById('openVideoBtn');
+        const videoContainer = document.getElementById('videoContainer');
+        const video = document.getElementById('invitationVideo');
 
-        let allAttendees = [];
-        let currentSort = null;
+        openVideoBtn.addEventListener('click', function() {
+            videoContainer.classList.add('active');
+            video.play();
+        });
 
-        function showPasswordPrompt() {
-            document.getElementById('passwordModal').classList.add('active');
-            document.getElementById('password').value = '';
-            document.getElementById('passwordError').style.display = 'none';
-        }
-
-        function closePassword() {
-            document.getElementById('passwordModal').classList.remove('active');
-        }
-
-        function checkPassword() {
-            const password = document.getElementById('password').value;
-            if (password === STAFF_PASSWORD) {
-                closePassword();
-                showAttendees();
-            } else {
-                document.getElementById('passwordError').style.display = 'block';
+        videoContainer.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                video.pause();
+                video.currentTime = 0;
             }
-        }
+        });
 
-        function showForm() {
-            document.getElementById('formModal').classList.add('active');
-            document.getElementById('name').value = '';
-            document.getElementById('guests').value = '1';
-            document.querySelectorAll('.error').forEach(e => e.style.display = 'none');
-        }
-
-        function closeForm() {
-            document.getElementById('formModal').classList.remove('active');
-        }
-
-        function closeSuccess() {
-            document.getElementById('successModal').classList.remove('active');
-        }
-
-        function closeAttendees() {
-            document.getElementById('attendeesModal').classList.remove('active');
-        }
-
-        function generateCode() {
-            return 'Q15-' + Math.random().toString(36).substr(2, 6).toUpperCase();
-        }
-
-        function submitForm() {
-            const name = document.getElementById('name').value.trim();
-            const guests = parseInt(document.getElementById('guests').value);
-            
-            let hasError = false;
-            
-            if (!name) {
-                document.getElementById('nameError').style.display = 'block';
-                hasError = true;
-            } else {
-                document.getElementById('nameError').style.display = 'none';
-            }
-            
-            if (guests < 1) {
-                document.getElementById('guestsError').style.display = 'block';
-                hasError = true;
-            } else {
-                document.getElementById('guestsError').style.display = 'none';
-            }
-            
-            if (hasError) return;
-            
-            const code = generateCode();
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true;
-            submitBtn.textContent = '⏳ Guardando...';
-            
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            document.body.appendChild(iframe);
-            
-            const form = iframe.contentDocument.createElement('form');
-            form.method = 'POST';
-            form.action = SCRIPT_URL;
-            
-            const data = {
-                action: 'save',
-                name: name,
-                guests: guests,
-                code: code,
-                date: new Date().toISOString(),
-                checkin: 'NO'
-            };
-            
-            Object.keys(data).forEach(key => {
-                const input = iframe.contentDocument.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                input.value = data[key];
-                form.appendChild(input);
-            });
-            
-            iframe.contentDocument.body.appendChild(form);
-            form.submit();
-            
-            setTimeout(() => {
-                document.getElementById('confirmationCode').textContent = code;
-                document.getElementById('formModal').classList.remove('active');
-                document.getElementById('successModal').classList.add('active');
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Confirmar';
-                document.body.removeChild(iframe);
-            }, 1500);
-        }
-
-        function showAttendees() {
-            document.getElementById('attendeesModal').classList.add('active');
-            document.getElementById('loadingAttendees').style.display = 'block';
-            document.getElementById('attendeesControls').style.display = 'none';
-            document.getElementById('attendeesList').style.display = 'none';
-            document.getElementById('totalBox').style.display = 'none';
-            
-            loadAttendees();
-        }
-
-        function loadAttendees() {
-            fetch(SCRIPT_URL + '?action=get')
-            .then(response => response.json())
-            .then(data => {
-                allAttendees = data;
-                displayAttendees(data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('loadingAttendees').innerHTML = '<p style="color: #f44336;">Error al cargar los asistentes</p>';
-            });
-        }
-
-        function toggleCheckIn(code, currentStatus) {
-            const newStatus = currentStatus === 'SI' ? 'NO' : 'SI';
-            
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            document.body.appendChild(iframe);
-            
-            const form = iframe.contentDocument.createElement('form');
-            form.method = 'POST';
-            form.action = SCRIPT_URL;
-            
-            const data = {
-                action: 'checkin',
-                code: code,
-                checkin: newStatus
-            };
-            
-            Object.keys(data).forEach(key => {
-                const input = iframe.contentDocument.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                input.value = data[key];
-                form.appendChild(input);
-            });
-            
-            iframe.contentDocument.body.appendChild(form);
-            form.submit();
-            
-            setTimeout(() => {
-                document.body.removeChild(iframe);
-                loadAttendees();
-            }, 1000);
-        }
-
-        function sortAttendees(type) {
-            currentSort = type;
-            
-            document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            let sorted = [...allAttendees];
-            
-            switch(type) {
-                case 'name-asc':
-                    sorted.sort((a, b) => a.name.localeCompare(b.name));
-                    break;
-                case 'name-desc':
-                    sorted.sort((a, b) => b.name.localeCompare(a.name));
-                    break;
-                case 'date-asc':
-                    sorted.sort((a, b) => new Date(a.date) - new Date(b.date));
-                    break;
-                case 'date-desc':
-                    sorted.sort((a, b) => new Date(b.date) - new Date(a.date));
-                    break;
-                case 'guests-asc':
-                    sorted.sort((a, b) => a.guests - b.guests);
-                    break;
-                case 'guests-desc':
-                    sorted.sort((a, b) => b.guests - a.guests);
-                    break;
-            }
-            
-            renderAttendeesList(sorted);
-        }
-
-        function filterAttendees() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            
-            let filtered = allAttendees.filter(attendee => {
-                return attendee.name.toLowerCase().includes(searchTerm) ||
-                       attendee.code.toLowerCase().includes(searchTerm);
-            });
-            
-            if (currentSort) {
-                const sortType = currentSort;
-                switch(sortType) {
-                    case 'name-asc':
-                        filtered.sort((a, b) => a.name.localeCompare(b.name));
-                        break;
-                    case 'name-desc':
-                        filtered.sort((a, b) => b.name.localeCompare(a.name));
-                        break;
-                    case 'date-asc':
-                        filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
-                        break;
-                    case 'date-desc':
-                        filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
-                        break;
-                    case 'guests-asc':
-                        filtered.sort((a, b) => a.guests - b.guests);
-                        break;
-                    case 'guests-desc':
-                        filtered.sort((a, b) => b.guests - a.guests);
-                        break;
-                }
-            }
-            
-            renderAttendeesList(filtered);
-        }
-
-        function renderAttendeesList(attendees) {
-            const listDiv = document.getElementById('attendeesList');
-            
-            if (attendees.length === 0) {
-                listDiv.innerHTML = '<p style="text-align: center; color: #888; padding: 40px;">No se encontraron asistentes</p>';
-                return;
-            }
-            
-            let html = '';
-            
-            
+        video.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>
