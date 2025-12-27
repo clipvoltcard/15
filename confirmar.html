@@ -63,6 +63,10 @@
             margin-bottom: 20px;
         }
 
+        .form-group.hidden {
+            display: none;
+        }
+
         label {
             display: block;
             color: #333;
@@ -184,16 +188,17 @@
     <div class="container">
         <div id="formScreen" class="form-screen">
             <button class="back-btn" onclick="window.location.href='index.html'">← Volver</button>
-            <h1>Confirmar Asistencia</h1>
-            <p class="subtitle">Por favor completa los siguientes datos</p>
+            <h1>Confirme su Asistencia</h1>
+            <p class="subtitle"><STRONG>DATOS DE INVITADO</STRONG></p>
 
             <div class="form-group">
-                <label for="name">Nombre Completo *</label>
-                <input type="text" id="name" placeholder="Ingresa tu nombre completo" required>
+              <label for="name">Su Nombre Completo:</label>
+                <input type="text" id="name" placeholder="Ingrese su nombre completo" required>
                 <div class="error" id="nameError">El nombre completo es obligatorio</div>
             </div>
 
-            <div class="form-group">
+            <!-- Campo oculto pero con valor predeterminado de 1 -->
+            <div class="form-group hidden">
                 <label for="guests">¿Cuántas personas asistirán? *</label>
                 <input type="number" id="guests" min="1" value="1" required>
                 <p class="help-text">Incluye el número total de personas que te acompañarán (incluyéndote a ti)</p>
@@ -291,12 +296,6 @@
         }
 
         document.getElementById('name').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('guests').focus();
-            }
-        });
-
-        document.getElementById('guests').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 submitForm();
             }
