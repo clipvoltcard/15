@@ -11,10 +11,6 @@
     <meta property="og:image" content="https://clipvoltcard.github.io/15/miniatura.jpg" />
     <meta property="og:url" content="https://clipvoltcard.github.io/15/" />
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Montserrat:wght@400;500;600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
-    
     <style>
         * {
             margin: 0;
@@ -23,191 +19,50 @@
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, 
-                #ffd4a3 0%, 
-                #ffc4a3 25%, 
-                #D9B4A7 50%, 
-                #BF8773 75%, 
-                #8C5B30 100%);
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #E9B8A8 0%, #D4A89D 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* Estrellas sutiles de fondo */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(2px 2px at 20% 30%, rgba(255, 215, 0, 0.4), transparent),
-                radial-gradient(2px 2px at 60% 70%, rgba(255, 215, 0, 0.3), transparent),
-                radial-gradient(1px 1px at 50% 50%, rgba(255, 215, 0, 0.4), transparent),
-                radial-gradient(1px 1px at 80% 10%, rgba(255, 215, 0, 0.3), transparent),
-                radial-gradient(2px 2px at 90% 60%, rgba(255, 215, 0, 0.4), transparent),
-                radial-gradient(1px 1px at 33% 85%, rgba(255, 215, 0, 0.3), transparent),
-                radial-gradient(2px 2px at 10% 90%, rgba(255, 215, 0, 0.4), transparent);
-            background-size: 200% 200%;
-            animation: twinkle 8s ease-in-out infinite;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 0.8; }
         }
 
         .container {
-            background: linear-gradient(to bottom, 
-                #F2DBCE 0%, 
-                #fde8d9 50%, 
-                #F2DBCE 100%);
-            border-radius: 45px;
-            box-shadow: 
-                0 0 80px rgba(255, 215, 0, 0.4),
-                0 20px 60px rgba(140, 91, 48, 0.3),
-                inset 0 2px 0 rgba(255, 255, 255, 0.5);
-            padding: 60px 45px 45px 45px;
-            max-width: 550px;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 500px;
             width: 100%;
-            position: relative;
-            z-index: 2;
-            border: 5px solid #BF8773;
-        }
-
-        /* Corona decorativa superior */
-        .crown {
-            position: absolute;
-            top: -60px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 5.5em;
-            filter: drop-shadow(0 8px 25px rgba(255, 215, 0, 1))
-                    drop-shadow(0 0 40px rgba(255, 215, 0, 0.8));
-            animation: float-crown 3s ease-in-out infinite;
-        }
-
-        @keyframes float-crown {
-            0%, 100% { 
-                transform: translateX(-50%) translateY(0); 
-            }
-            50% { 
-                transform: translateX(-50%) translateY(-15px); 
-            }
-        }
-
-        /* Decoraciones laterales elegantes */
-        .decoration {
-            position: absolute;
-            font-size: 2.8em;
-            animation: float-side 4s ease-in-out infinite;
-            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
-        }
-
-        .decoration-left {
-            left: -25px;
-            top: 22%;
-        }
-
-        .decoration-right {
-            right: -25px;
-            top: 22%;
-            animation-delay: 2s;
-        }
-
-        @keyframes float-side {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
         }
 
         h1 {
-            font-family: 'Dancing Script', cursive;
-            color: #8C5B30;
-            font-size: 4.2em;
+            color: #d91e6f;
+            font-size: 3em;
             text-align: center;
-            margin-bottom: 12px;
-            filter: drop-shadow(2px 2px 4px rgba(140, 91, 48, 0.3))
-                    drop-shadow(0 0 20px rgba(255, 215, 0, 0.2));
-            font-weight: 700;
-            letter-spacing: 2px;
+            margin-bottom: 10px;
         }
 
         .subtitle {
-            font-family: 'Playfair Display', serif;
-            color: #8C5B30;
+            color: #888;
             text-align: center;
             margin-bottom: 30px;
             font-size: 1.1em;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        /* Separador elegante */
-        .divider {
-            text-align: center;
-            margin: 28px 0;
-            font-size: 1.3em;
-            color: #BF8773;
-            font-weight: 600;
         }
 
         .info-box {
-            background: linear-gradient(135deg, 
-                rgba(255, 235, 220, 0.9) 0%, 
-                rgba(255, 245, 235, 0.85) 50%,
-                rgba(255, 235, 220, 0.9) 100%);
-            border-radius: 35px;
-            padding: 35px 30px;
-            margin-bottom: 28px;
-            box-shadow: 
-                0 8px 32px rgba(191, 135, 115, 0.25),
-                inset 0 2px 0 rgba(255, 255, 255, 0.6);
-            border: 3px solid #BF8773;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .info-box::before {
-            content: '✨';
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 2.2em;
-            opacity: 0.4;
-            animation: twinkle-icon 3s ease-in-out infinite;
-            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
-        }
-
-        @keyframes twinkle-icon {
-            0%, 100% { 
-                opacity: 0.4; 
-                transform: rotate(0deg); 
-            }
-            50% { 
-                opacity: 0.7; 
-                transform: rotate(180deg); 
-            }
+            background: #fce4ec;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
         }
 
         .info-item {
             display: flex;
             align-items: center;
-            margin-bottom: 22px;
-            color: #0D0D0D;
-            font-size: 1.08em;
-            font-weight: 600;
-            font-family: 'Montserrat', sans-serif;
-            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #333;
         }
 
         .info-item:last-child {
@@ -215,218 +70,69 @@
         }
 
         .icon {
-            width: 34px;
-            height: 34px;
-            margin-right: 16px;
-            color: #8C5B30;
-            filter: drop-shadow(0 0 5px rgba(140, 91, 48, 0.4));
-            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            color: #d91e6f;
         }
 
         .map-link {
-            color: #8C5B30;
+            color: #2196F3;
             text-decoration: none;
-            font-weight: 700;
-            transition: all 0.3s;
-            border-bottom: 2px solid #BF8773;
+            font-weight: bold;
         }
 
         .map-link:hover {
-            color: #BF8773;
-            border-bottom: 2px solid #8C5B30;
+            text-decoration: underline;
         }
 
-        /* Botones cromados con resplandor dorado */
         .btn {
             width: 100%;
-            padding: 22px;
+            padding: 16px;
             border: none;
-            border-radius: 35px;
-            font-size: 1.15em;
-            font-weight: 700;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.4s ease;
-            margin-bottom: 14px;
+            transition: all 0.3s;
+            margin-bottom: 10px;
             text-decoration: none;
             display: block;
             text-align: center;
-            font-family: 'Montserrat', sans-serif;
-            letter-spacing: 1.5px;
-            position: relative;
-            overflow: hidden;
-            text-transform: uppercase;
         }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent 30%,
-                rgba(255, 255, 255, 0.3) 50%,
-                transparent 70%
-            );
-            transform: rotate(45deg);
-            animation: shine 3s infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        /* Botón dorado cromado principal */
         .btn-secondary {
-            background: linear-gradient(135deg, 
-                #FFD700 0%, 
-                #FFC700 25%, 
-                #FFD700 50%, 
-                #FFED4E 75%, 
-                #FFD700 100%);
-            color: #0D0D0D;
-            box-shadow: 
-                0 0 30px rgba(255, 215, 0, 0.6),
-                0 0 60px rgba(255, 215, 0, 0.4),
-                0 10px 35px rgba(255, 215, 0, 0.3),
-                inset 0 2px 0 rgba(255, 255, 255, 0.5),
-                inset 0 -2px 0 rgba(0, 0, 0, 0.1);
-            border: 3px solid #FFA500;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            background: #f4c542;
+            color: white;
         }
 
         .btn-secondary:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 
-                0 0 50px rgba(255, 215, 0, 0.8),
-                0 0 80px rgba(255, 215, 0, 0.6),
-                0 15px 50px rgba(255, 215, 0, 0.5),
-                inset 0 2px 0 rgba(255, 255, 255, 0.6),
-                inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+            background: #e0b538;
         }
 
-        /* Botón rosa elegante */
         .btn-primary {
-            background: linear-gradient(135deg, 
-                #BF8773 0%, 
-                #D9B4A7 50%, 
-                #BF8773 100%);
-            color: #F2DBCE;
-            box-shadow: 
-                0 10px 35px rgba(191, 135, 115, 0.4),
-                inset 0 2px 0 rgba(255, 255, 255, 0.3),
-                inset 0 -2px 0 rgba(0, 0, 0, 0.1);
-            border: 3px solid #8C5B30;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            background: #d91e6f;
+            color: white;
         }
 
         .btn-primary:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 
-                0 15px 50px rgba(191, 135, 115, 0.6),
-                inset 0 2px 0 rgba(255, 255, 255, 0.4),
-                inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+            background: #b91860;
         }
 
-        /* Botón marrón elegante */
         .btn-gray {
-            background: linear-gradient(135deg, 
-                #8C5B30 0%, 
-                #A67C52 50%, 
-                #8C5B30 100%);
-            color: #F2DBCE;
-            box-shadow: 
-                0 10px 35px rgba(140, 91, 48, 0.4),
-                inset 0 2px 0 rgba(255, 255, 255, 0.2),
-                inset 0 -2px 0 rgba(0, 0, 0, 0.2);
-            border: 3px solid #BF8773;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+            background: #666;
+            color: white;
         }
 
         .btn-gray:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 
-                0 15px 50px rgba(140, 91, 48, 0.6),
-                inset 0 2px 0 rgba(255, 255, 255, 0.3),
-                inset 0 -2px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        .payment-section {
-            background: linear-gradient(135deg, 
-                rgba(255, 235, 220, 0.95) 0%, 
-                rgba(255, 245, 235, 0.9) 50%,
-                rgba(255, 235, 220, 0.95) 100%);
-            border-radius: 35px;
-            padding: 32px;
-            margin: 28px 0;
-            box-shadow: 
-                0 8px 32px rgba(191, 135, 115, 0.25),
-                inset 0 2px 0 rgba(255, 255, 255, 0.5);
-            border: 3px solid #BF8773;
-        }
-
-        .payment-section img {
-            border-radius: 30px;
-            box-shadow: 
-                0 8px 25px rgba(191, 135, 115, 0.3);
-            margin-bottom: 22px;
-            border: 3px solid #BF8773;
-        }
-
-        .payment-section p {
-            color: #0D0D0D;
-            font-weight: 700;
-            margin: 14px 0;
-            font-size: 1.12em;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .payment-section strong {
-            color: #8C5B30;
-            font-size: 1.25em;
+            background: #555;
         }
 
         .footer {
             text-align: center;
-            color: #8C5B30;
-            margin-top: 22px;
-            margin-bottom: 22px;
-            font-size: 1.6em;
-            font-weight: 700;
-            font-family: 'Dancing Script', cursive;
-            filter: drop-shadow(1px 1px 2px rgba(140, 91, 48, 0.2));
-        }
-
-        .countdown-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin: 32px 0;
-        }
-
-        .countdown-wrapper {
-            width: 100%;
-            max-width: 700px;
-            height: 160px;
-            position: relative;
-            overflow: hidden;
-            border-radius: 35px;
-            box-shadow: 
-                0 8px 32px rgba(191, 135, 115, 0.3);
-            border: 3px solid #BF8773;
-            background: rgba(255, 245, 235, 0.5);
-        }
-
-        .countdown-wrapper iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            position: absolute;
-            left: 0;
-            top: 0;
+            color: #666;
+            margin-top: 30px;
+            font-size: 1.1em;
         }
 
         #videoContainer {
@@ -436,13 +142,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, 
-                rgba(242, 219, 206, 0.97) 0%, 
-                rgba(217, 180, 167, 0.97) 50%,
-                rgba(191, 135, 115, 0.97) 100%);
+            background: black;
             z-index: 2000;
             flex-direction: column;
-            backdrop-filter: blur(15px);
         }
         
         #videoContainer.active {
@@ -453,68 +155,29 @@
         
         video {
             max-width: 100%;
-            max-height: calc(100% - 140px);
+            max-height: calc(100% - 100px);
             width: 100%;
             object-fit: contain;
-            border-radius: 35px;
-            box-shadow: 
-                0 0 80px rgba(255, 215, 0, 0.5),
-                0 20px 60px rgba(140, 91, 48, 0.4);
-            border: 5px solid #BF8773;
         }
 
-        /* Botón de confirmar con resplandor dorado */
+        /* Botón flotante para confirmar asistencia en el video */
         #videoConfirmBtn {
             display: none;
             width: calc(100% - 40px);
             max-width: 500px;
             margin: 20px;
-            padding: 24px 40px;
-            background: linear-gradient(135deg, 
-                #FFD700 0%, 
-                #FFC700 25%, 
-                #FFD700 50%, 
-                #FFED4E 75%, 
-                #FFD700 100%);
-            color: #0D0D0D;
+            padding: 16px 40px;
+            background: #d91e6f;
+            color: white;
             border: none;
-            border-radius: 35px;
-            font-size: 1.3em;
-            font-weight: 700;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
             cursor: pointer;
             text-decoration: none;
             text-align: center;
-            box-shadow: 
-                0 0 40px rgba(255, 215, 0, 0.7),
-                0 0 70px rgba(255, 215, 0, 0.5),
-                0 12px 40px rgba(255, 215, 0, 0.4),
-                inset 0 2px 0 rgba(255, 255, 255, 0.5),
-                inset 0 -2px 0 rgba(0, 0, 0, 0.1);
-            animation: pulse-gold 2.5s infinite;
-            font-family: 'Montserrat', sans-serif;
-            letter-spacing: 2px;
-            border: 3px solid #FFA500;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            text-transform: uppercase;
-            position: relative;
-            overflow: hidden;
-        }
-
-        #videoConfirmBtn::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent 30%,
-                rgba(255, 255, 255, 0.4) 50%,
-                transparent 70%
-            );
-            transform: rotate(45deg);
-            animation: shine 3s infinite;
+            box-shadow: 0 4px 20px rgba(217, 30, 111, 0.5);
+            animation: pulse 2s infinite;
         }
 
         #videoConfirmBtn.show {
@@ -522,106 +185,24 @@
         }
 
         #videoConfirmBtn:hover {
+            background: #b91860;
             transform: scale(1.05);
-            box-shadow: 
-                0 0 60px rgba(255, 215, 0, 0.9),
-                0 0 100px rgba(255, 215, 0, 0.7),
-                0 18px 50px rgba(255, 215, 0, 0.6),
-                inset 0 2px 0 rgba(255, 255, 255, 0.6),
-                inset 0 -2px 0 rgba(0, 0, 0, 0.1);
         }
 
-        @keyframes pulse-gold {
+        @keyframes pulse {
             0%, 100% {
-                box-shadow: 
-                    0 0 40px rgba(255, 215, 0, 0.7),
-                    0 0 70px rgba(255, 215, 0, 0.5),
-                    0 12px 40px rgba(255, 215, 0, 0.4),
-                    inset 0 2px 0 rgba(255, 255, 255, 0.5),
-                    inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+                box-shadow: 0 4px 20px rgba(217, 30, 111, 0.5);
             }
             50% {
-                box-shadow: 
-                    0 0 60px rgba(255, 215, 0, 0.9),
-                    0 0 100px rgba(255, 215, 0, 0.7),
-                    0 15px 45px rgba(255, 215, 0, 0.6),
-                    inset 0 2px 0 rgba(255, 255, 255, 0.6),
-                    inset 0 -2px 0 rgba(0, 0, 0, 0.1);
-            }
-        }
-
-        /* Partículas doradas sutiles */
-        .magic-particle {
-            position: fixed;
-            pointer-events: none;
-            z-index: 1;
-            animation: float-particle 10s ease-in-out infinite;
-            font-size: 20px;
-            filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
-        }
-
-        @keyframes float-particle {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.6;
-            }
-            90% {
-                opacity: 0.6;
-            }
-            100% {
-                transform: translateY(-110vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            .container {
-                padding: 50px 28px 32px 28px;
-                border-radius: 40px;
-            }
-
-            h1 {
-                font-size: 3.2em;
-            }
-
-            .crown {
-                font-size: 4.5em;
-                top: -52px;
-            }
-
-            .decoration {
-                font-size: 2.2em;
-            }
-
-            .info-box,
-            .payment-section,
-            .countdown-wrapper,
-            .btn,
-            #videoConfirmBtn,
-            video {
-                border-radius: 30px;
-            }
-
-            .payment-section img {
-                border-radius: 25px;
+                box-shadow: 0 4px 30px rgba(217, 30, 111, 0.8);
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="crown">👑</div>
-        <div class="decoration decoration-left">✨</div>
-        <div class="decoration decoration-right">✨</div>
-        
         <h1>Mis 15 Años</h1>
         <p class="subtitle">Estás cordialmente invitado(a)</p>
-
-        <div class="divider">✦ ━━━ ✦ ━━━ ✦</div>
 
         <div class="info-box">
             <div class="info-item">
@@ -645,41 +226,48 @@
             </div>
         </div>
 
-        <div class="divider">✦ ━━━ ✦ ━━━ ✦</div>
+		
 
-        <p class="footer">Rebeca Noemí Alfaro Daza</p>
-        <p class="footer">&nbsp;</p>
-        
-        <button class="btn btn-secondary" id="openVideoBtn">✨ Abrir Invitación ✨</button>
+		
+		
+	    <p class="footer">Rebeca Noemí Alfaro Daza</p>
+	    <p class="footer">&nbsp;</p>
+      <button class="btn btn-secondary" id="openVideoBtn">Abrir Invitación</button>
 
-        <div class="payment-section">
-            <img src="regalo.png" width="100%" alt="Regalo"/>
-            <p align="center">💷 Yape: <strong>958706427 Jonatan Alf *</strong></p>
-            <p align="center">💵 CUENTA BCP: <strong>57028253284024</strong></p>
-            <p align="center">💶 CCI: <strong>00257012825328402409</strong></p>
-        </div>
-        
-        <div class="countdown-container">
-            <div class="countdown-wrapper">
-                <iframe 
-                    src="https://www.tickcounter.com/widget/countdown/8986183" 
-                    title="Cuenta Regresiva Mis 15 Años"
-                    allowtransparency="true">
-                </iframe>
-            </div>
-        </div>
-        
-        <p align="center">
-            <a href="validar.html" class="btn btn-gray">📋Validar Invitación</a>
-        </p>
+	  		
+    <img src="regalo.png" width="100%" alt=""/>
+		<p align = "center">Yape: <strong>958706427 Jonatan Alf *</strong></p>
+		<p align ="center">CUENTA BCP: <strong>57028253284024</strong></p>
+      <p align="center">CCI:<strong>&nbsp;00257012825328402409</strong></p> 
+		
+		
+		
+		<div style="width: 100%; display: flex; justify-content: center; margin: 20px 0;">
+    <div style="width: 100%; max-width: 700px; height: 160px; position: relative; overflow: hidden;">
+        <iframe 
+            src="https://www.tickcounter.com/widget/countdown/8986183" 
+            title="Cuenta Regresiva Mis 15 Años"
+            style="width: 100%; height: 100%; border: none; position: absolute; left: 0; top: 0;"
+            allowtransparency="true">
+        </iframe>
     </div>
-
-    <div id="videoContainer">
-        <video id="invitationVideo" loop playsinline controls>
+</div>
+		
+		
+		
+		
+		
+		
+		
+		
+      <p align="center"><a href="validar.html" class="btn btn-gray">📸 Validar Invitación (Staff)</a></p>
+    </div>
+<div id="videoContainer">
+    <video id="invitationVideo" loop playsinline controls>
             <source src="https://github.com/clipvoltcard/15/raw/main/15.mp4" type="video/mp4">
             Tu navegador no soporta el video.
         </video>
-        <a href="confirmar.html" id="videoConfirmBtn">✨ Confirmar Asistencia ✨</a>
+        <a href="confirmar.html" id="videoConfirmBtn">Confirmar Asistencia</a>
     </div>
 
     <script>
@@ -693,10 +281,12 @@
             video.play();
         });
 
+        // Mostrar botón cuando el video se reproduce
         video.addEventListener('play', function() {
             videoConfirmBtn.classList.add('show');
         });
 
+        // Ocultar botón cuando el video se pausa
         video.addEventListener('pause', function() {
             videoConfirmBtn.classList.remove('show');
         });
@@ -713,32 +303,6 @@
         video.addEventListener('click', function(e) {
             e.stopPropagation();
         });
-
-        // Crear partículas doradas sutiles
-        function createMagicParticle() {
-            const particles = ['✨', '⭐', '👑'];
-            const particle = document.createElement('div');
-            particle.className = 'magic-particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.bottom = '-40px';
-            particle.textContent = particles[Math.floor(Math.random() * particles.length)];
-            particle.style.animationDuration = (Math.random() * 4 + 8) + 's';
-            particle.style.animationDelay = Math.random() * 2 + 's';
-            
-            document.body.appendChild(particle);
-            
-            setTimeout(() => {
-                particle.remove();
-            }, 12000);
-        }
-
-        // Crear partículas ocasionales
-        setInterval(createMagicParticle, 3000);
-        
-        // Crear algunas al inicio
-        for(let i = 0; i < 3; i++) {
-            setTimeout(createMagicParticle, i * 1000);
-        }
     </script>
 </body>
 </html>
