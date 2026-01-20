@@ -189,46 +189,9 @@
         
         video {
             max-width: 100%;
-            max-height: calc(100% - 100px);
+            max-height: 100%;
             width: 100%;
             object-fit: contain;
-        }
-
-        #videoConfirmBtn {
-            display: none;
-            width: calc(100% - 40px);
-            max-width: 500px;
-            margin: 20px;
-            padding: 16px 40px;
-            background: #d91e6f;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(217, 30, 111, 0.5);
-            animation: pulse 2s infinite;
-        }
-
-        #videoConfirmBtn.show {
-            display: block;
-        }
-
-        #videoConfirmBtn:hover {
-            background: #b91860;
-            transform: scale(1.05);
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                box-shadow: 0 4px 20px rgba(217, 30, 111, 0.5);
-            }
-            50% {
-                box-shadow: 0 4px 30px rgba(217, 30, 111, 0.8);
-            }
         }
     </style>
 </head>
@@ -307,26 +270,16 @@
             <source src="https://github.com/clipvoltcard/15/raw/main/15.mp4" type="video/mp4">
             Tu navegador no soporta el video.
         </video>
-        <a href="confirmar.html" id="videoConfirmBtn">Confirmar Asistencia</a>
     </div>
 
     <script>
         const openVideoBtn = document.getElementById('openVideoBtn');
         const videoContainer = document.getElementById('videoContainer');
         const video = document.getElementById('invitationVideo');
-        const videoConfirmBtn = document.getElementById('videoConfirmBtn');
 
         openVideoBtn.addEventListener('click', function() {
             videoContainer.classList.add('active');
             video.play();
-        });
-
-        video.addEventListener('play', function() {
-            videoConfirmBtn.classList.add('show');
-        });
-
-        video.addEventListener('pause', function() {
-            videoConfirmBtn.classList.remove('show');
         });
 
         videoContainer.addEventListener('click', function(e) {
@@ -334,7 +287,6 @@
                 this.classList.remove('active');
                 video.pause();
                 video.currentTime = 0;
-                videoConfirmBtn.classList.remove('show');
             }
         });
 
